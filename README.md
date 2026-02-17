@@ -66,14 +66,31 @@ npm install -g @anthropic-ai/claude-code  # Claude Code の再インストール
 ### Codespace 上での初回セットアップ
 
 1. ターミナルで `claude` を実行
-2. テーマ選択 → **Light** / **Dark** お好みで
-3. 「Do you trust the files in this folder?」→ **Yes**
-4. 認証方法の選択 → **「Use an API key」** を選択
-5. 講師から共有された **API キー**（`sk-ant-` で始まる文字列）を貼り付けて Enter
+2. テーマ選択 → **Light** / **Dark** / **Auto Dark** お好みで
+3. 認証方法 → **「2. Anthropic Console account」** を選択
+4. 「Code で外部の Web サイトを開きますか?」→ **「開く」**
+5. ブラウザでログインページが開く → **自分の Anthropic アカウント**でログイン
+6. 「Claude Code would like to connect to your Anthropic organization ...」→ **「Authorize」**
+7. 表示された **Authentication Code** をコピーしてターミナルに貼り付け → Enter
+8. 「Use Claude Code's terminal setup?」→ **「Yes, use recommended settings」**
+9. 「Is this a project you created or one you trust?」→ **「Yes, I trust this folder」**
 
-> API キーは貼り付けても画面に表示されませんが、正常です。そのまま Enter を押してください。
+> 事前に Anthropic アカウントの作成と Organization への参加が必要です（詳細は環境構築手順を参照）。  
+> 2回目以降は `claude` だけで直接起動します。
 
-2回目以降は `claude` だけで直接起動します。
+### モデルを Opus に切り替える
+
+初回セットアップ完了後、対話画面で `/model` と入力：
+
+```
+Select model
+❯ 1. Default (recommended) ✔  Sonnet 4.5 · $3/$15 per Mtok
+  2. Opus                     Opus 4.6 · Most capable · $5/$25 per Mtok
+  3. Opus (1M context)        Opus 4.6 for long sessions · $10/$37.50 per Mtok
+  4. Haiku                    Haiku 4.5 · Fastest · $1/$5 per Mtok
+```
+
+→ **「2. Opus」** を選択（次回以降も引き継がれます）
 
 ### `/estimate` コマンド（改修見積もり）⭐
 
@@ -123,6 +140,7 @@ npm install -g @anthropic-ai/claude-code  # Claude Code の再インストール
 | 操作 | 方法 |
 |------|------|
 | 起動 | `claude` |
+| **モデル切替** | `/model` → **Opus** を選択 |
 | **改修見積もり** | `/estimate 要求内容` |
 | Plan モード切替 | `Shift + Tab` |
 | 変更を承認 | `Yes` または `y` |
@@ -141,7 +159,7 @@ npm install -g @anthropic-ai/claude-code  # Claude Code の再インストール
 | `OperationalError: no such table: posts` | `python init_db.py` を実行 |
 | `Address already in use` | `Ctrl + C` で停止してから `python app.py` |
 | `command not found: claude` | `npm install -g @anthropic-ai/claude-code` を実行 |
-| `API key not found` | 講師から共有された API キーを再入力。`/login` で再認証できます |
+| 認証エラー / ログインできない | `/login` で再認証。ブラウザでログインし直して Authentication Code を再入力 |
 | ポップアップが出ない | 画面下部「ポート」タブ → 5000番の地球アイコンをクリック |
 
 ---
