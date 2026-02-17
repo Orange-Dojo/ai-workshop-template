@@ -11,7 +11,11 @@
       "settings": {
         "terminal.integrated.defaultProfile.linux": "bash",
         "editor.fontSize": 16,
-        "editor.tabSize": 4
+        "editor.tabSize": 4,
+        "files.exclude": {
+          "**/.git": true,
+          "**/.claude": false
+        }
       },
       "extensions": [
         "ms-python.python"
