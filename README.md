@@ -10,8 +10,27 @@
 
 1. 「**Use this template**」→「**Create a new repository**」
 2. 作成したリポジトリで「**Create codespace on main**」
-3. 自動セットアップ完了後、ターミナルで `python app.py`
-4. ブラウザで掲示板アプリが表示されます
+3. ターミナルに `✅ セットアップ完了！` と表示されるまで待つ
+4. ターミナルで `python app.py`（WARNING が出ても無視してOK）
+5. ブラウザで掲示板アプリが表示されます
+
+### セットアップの確認（完了メッセージが出ない場合）
+
+ターミナルで以下を1つずつ実行して確認してください：
+
+```bash
+flask --version          # Flask のバージョンが表示されればOK
+ls posts.db              # ファイルが表示されればOK
+claude --version         # バージョン番号が表示されればOK
+```
+
+表示されない場合は手動で再インストール：
+
+```bash
+pip install -r requirements.txt     # Flask の再インストール
+python init_db.py                   # DB の再作成
+npm install -g @anthropic-ai/claude-code  # Claude Code の再インストール
+```
 
 ---
 
@@ -44,21 +63,35 @@
 
 ターミナルで `claude` と入力すると、AIコーディングアシスタントが起動します。
 
-### Anthropic Console アカウントの連携
-
-Claude Code を使うには **Anthropic Console のアカウント** との連携が必要です。
-- Enterpriseを使って良いのか要確認
-
 ### Codespace 上での初回セットアップ
 
 1. ターミナルで `claude` を実行
-2. 「Do you trust the files in this folder?」→ **Yes**
-3. 認証方法の選択 → **「Anthropic Console (OAuth)」** を選択
-4. 表示された認証URLをクリック → ブラウザで Anthropic Console にログイン → **「Allow」**
-5. ブラウザのタブを閉じて Codespace に戻る
-6. テーマ選択 → Light / Dark お好みで
+2. テーマ選択 → **Light** / **Dark** お好みで
+3. 「Do you trust the files in this folder?」→ **Yes**
+4. 認証方法の選択 → **「Use an API key」** を選択
+5. 講師から共有された **API キー**（`sk-ant-` で始まる文字列）を貼り付けて Enter
+
+> API キーは貼り付けても画面に表示されませんが、正常です。そのまま Enter を押してください。
 
 2回目以降は `claude` だけで直接起動します。
+
+### `/estimate` コマンド（改修見積もり）⭐
+
+要求に対して **改修レベル・変更ファイル・理由** を見積もる専用コマンドです。  
+実装はせず、見積もりだけを返します。
+
+```
+/estimate ボタンの色を赤に変えたい
+→ 改修レベル: UI（小）、変更ファイル: style.css のみ
+
+/estimate 投稿にカテゴリ項目を追加して
+→ 改修レベル: Backend + DB（大）、変更ファイル: 5つ
+```
+
+見積もりに納得したら：
+```
+> OK、この内容で実装して
+```
 
 ### 基本的な使い方
 
@@ -90,6 +123,7 @@ Claude Code を使うには **Anthropic Console のアカウント** との連�
 | 操作 | 方法 |
 |------|------|
 | 起動 | `claude` |
+| **改修見積もり** | `/estimate 要求内容` |
 | Plan モード切替 | `Shift + Tab` |
 | 変更を承認 | `Yes` または `y` |
 | 変更を拒否 | `No` または `n` |
@@ -107,7 +141,7 @@ Claude Code を使うには **Anthropic Console のアカウント** との連�
 | `OperationalError: no such table: posts` | `python init_db.py` を実行 |
 | `Address already in use` | `Ctrl + C` で停止してから `python app.py` |
 | `command not found: claude` | `npm install -g @anthropic-ai/claude-code` を実行 |
-| `API key not found` | 講師に確認 |
+| `API key not found` | 講師から共有された API キーを再入力。`/login` で再認証できます |
 | ポップアップが出ない | 画面下部「ポート」タブ → 5000番の地球アイコンをクリック |
 
 ---
